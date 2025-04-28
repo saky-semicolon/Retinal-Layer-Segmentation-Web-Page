@@ -213,7 +213,7 @@ const Index = () => {
               
               <Reference 
                 authors="Wang, Y., & Chen, L."
-                year="2020"
+                year="2023"
                 title="Dynamic capabilities for digital transformation"
                 source="Business Process Management Journal, 26(4), 73-91"
                 doi="10.1108/BPMJ-11-2019-0454"
