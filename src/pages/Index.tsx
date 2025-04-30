@@ -91,19 +91,26 @@ const Index = () => {
               </p>
               <p className="mb-4 text-justify leading-[1.5]">
                 <b>Dataset and Preprocessing:</b> The Duke OCT dataset, comprising 220 OCT images (216x500 pixels) and corresponding 8-class segmentation masks, was used. Preprocessing involved normalizing pixel intensities to [0,1], resizing images and masks to 256x256 (bilinear for images, nearest-neighbor for masks), and one-hot encoding the masks for multi-class segmentation. The dataset was split into 80% training and 20% validation sets.
-                <img 
-  src="imgs/data.png" 
-  alt="SegNet Architecture Diagram" 
-  className="w-full h-auto my-4"
-/>
+                <Section 
+  id="example-section" 
+  imageSrc="../imgs/data.png" 
+  imageAlt="Example Image" 
+  imageClassName="rounded-lg shadow-md"
+>
+<p className="text-center italic text-sm">Figure 1: Two random samples/images (cmap=‘gray’), with their respective mask (cmap = ‘jet’). </p>
+</Section>
               </p>
                <p className="mb-4 text-justify leading-[1.5]">
                 <b>Model Architecture:</b> An encoder-decoder SegNet architecture was chosen for pixel-wise segmentation. SegNet utilizes pooling indices during downsampling to improve spatial detail reconstruction during upsampling. To suit the experimental setup (Kaggle free-tier GPU), a modified SegNet with a maximum filter depth of 512 was implemented, alongside full-resolution skip connections to preserve fine spatial information crucial for thin retinal layers. The output layer consists of a 1x1 convolution mapping to 8 channels, followed by a softmax activation for multi-class pixel classification.
-                <img 
-  src="imgs/arch.png" 
-  alt="SegNet Architecture Diagram" 
-  className="w-full h-auto my-4"
-/>
+                <Section 
+  id="example-section" 
+  imageSrc="../imgs/arch.png" 
+  imageAlt="Example Image" 
+  imageClassName="rounded-lg shadow-md"
+>
+<p className="text-center italic text-sm">Figure 2. Overview of the SegNet architecture used for retinal layer segmentation which scans grayscale OCT images using an encoder-decoder module. </p>
+</Section>
+            
               </p>
                <p className="mb-4 text-justify leading-[1.5]">
                 <b>Loss Function and Training:</b> A hybrid loss function combining Categorical Cross-Entropy (CCE) and Dice Loss (with $\lambda=0.5$) was employed to balance pixel-wise accuracy and segmentation quality, particularly addressing class imbalance. The model was trained for 100 epochs with a batch size of 32 using the Adam optimizer (learning rate 0.001). Training incorporated `ReduceLROnPlateau`, `EarlyStopping` (with patience), `ModelCheckpoint` (saving the best weights based on validation loss), and `CSVLogger` for monitoring.
@@ -128,30 +135,42 @@ const Index = () => {
               </p>
               <p className="mb-4 text-justify leading-[1.5]">
                 <b>Model Training Performance:</b> The model was trained and evaluated using standard metrics: Accuracy, Loss, Dice Coefficient, and Jaccard Index (IoU). Training curves demonstrated consistent convergence and high final performance on both training and validation sets, indicating effective learning and generalization without significant overfitting. Key final validation metrics achieved were: Accuracy 95.77%, Dice Coefficient 0.9446, and Jaccard Index (IoU) 0.8951. The validation loss converged to 0.1354, further confirming robustness on unseen data.
-                <img 
-  src="imgs/train.png" 
-  alt="SegNet Architecture Diagram" 
-  className="w-full h-auto my-4"
-/>
+                <Section 
+  id="example-section" 
+  imageSrc="../imgs/train.png" 
+  imageAlt="Example Image" 
+  imageClassName="rounded-lg shadow-md"
+>
+<p className="text-center italic text-sm">Figure 3: Model Training Curves – Accuracy, Loss, Dice Coefficient, and Jaccard Index (IoU)</p>
+</Section>
+                
               </p>
               <p className="mb-4 text-justify leading-[1.5]">
                 <b>Visual Interpretation:</b> Visual comparison of predicted segmentation masks against ground truth showed good spatial alignment and boundary delineation for major retinal layers. Challenges were noted in low-contrast areas, thin layers, and texture-sensitive regions, leading to localized inaccuracies. Analysis of misclassified pixels identified primary failure modes as border ambiguity, over-segmentation, and under-segmentation, highlighting difficulties with fine-grained structures and class boundaries.
-                <img 
-  src="imgs/vr.png" 
-  alt="SegNet Architecture Diagram" 
-  className="w-full h-auto my-4"
-/>
+                <Section 
+  id="example-section" 
+  imageSrc="../imgs/vr.png" 
+  imageAlt="Example Image" 
+  imageClassName="rounded-lg shadow-md"
+>
+<p className="text-center italic text-sm">Figure 4: Visual comparison of OCT input, ground truth, and predicted retinal layer segmentation masks across three different OCT samples.</p>
+</Section>
+                
               </p>
               <p className="mb-4 text-justify leading-[1.5]">
-                <b>Class-wise Analysis:</b> Class-wise evaluation (Table 2) revealed performance variations across the eight retinal layers. Class 0 achieved exceptional results (IoU 0.99, Accuracy 99.2%). Robust performance was seen in Classes 2, 5, and 6 (IoU &gt; 0.85, Accuracy &gt; 90%). Classes 1 and 7 had moderate performance, while Classes 3 and 4 exhibited diminished scores (IoU 0.71 and 0.68), suggesting challenges potentially related to class imbalance or complex anatomical structures. Visualizations clearly depicted these class-wise performance differences.
+                <b>Class-wise Analysis:</b> Class-wise evaluation revealed performance variations across the eight retinal layers. Class 0 achieved exceptional results (IoU 0.99, Accuracy 99.2%). Robust performance was seen in Classes 2, 5, and 6 (IoU &gt; 0.85, Accuracy &gt; 90%). Classes 1 and 7 had moderate performance, while Classes 3 and 4 exhibited diminished scores (IoU 0.71 and 0.68), suggesting challenges potentially related to class imbalance or complex anatomical structures. Visualizations clearly depicted these class-wise performance differences.
               </p>
               <p className="mb-4 text-justify leading-[1.5]">
                 <b>Explainable AI (XAI) Insights:</b> Integration of Grad-CAM provided valuable interpretability by generating class-specific heatmaps. Analysis of heatmaps from layers Conv2d_19 (feature refinement) and Conv2d_20 (final classification) showed how feature activations contribute to segmentation decisions for each layer. Conv2d_20 exhibited more refined, class-specific attention compared to Conv2d_19, indicating improved class separability in deeper layers. This multi-class XAI approach enhances clinical trust by visually confirming the model's focus on clinically relevant anatomical regions and aids in understanding segmentation errors and potential biases.
-                <img 
-  src="imgs/xai.png" 
-  alt="SegNet Architecture Diagram" 
-  className="w-full h-auto my-4"
-/>
+                <Section 
+  id="example-section" 
+  imageSrc="../imgs/xai.png" 
+  imageAlt="Example Image" 
+  imageClassName="rounded-lg shadow-md"
+>
+<p className="text-center italic text-sm">Figure 5: Visualization of hierarchical feature maps from two consecutive convolutional layers (Conv2d_19 and Conv2d_20). (L1): (a) Input image; (b–i) Feature maps from Conv2d_19, corresponding to Class 0–7,  Bottom row (L2): (a–i) Feature maps from Conv2d_20</p>
+</Section>
+                
               </p>
             </Section>
             
@@ -171,54 +190,70 @@ const Index = () => {
             </Section>
             
             <Section id="references" title="References">
-              <Reference 
-                authors="Brown, A., & Davis, C."
-                year="2020"
-                title="Challenges in measuring digital transformation ROI"
-                source="Journal of Digital Business, 15(2), 78-93"
-                doi="10.1007/s12345-020-0012-3"
-              />
-              
-              <Reference 
-                authors="Garcia, R., & Martinez, J."
-                year="2021"
-                title="Digital leadership capabilities and transformation success"
-                source="MIT Sloan Management Review, 62(4), 52-71"
-                url="https://sloanreview.mit.edu/digital-leadership"
-              />
-              
-              <Reference 
-                authors="Lee, J., Kim, S., & Park, H."
-                year="2019"
-                title="Conceptualizing digital transformation in business organizations"
-                source="Digital Business, 23(1), 95-114"
-                doi="10.1016/j.digbus.2019.01.003"
-              />
-              
-              <Reference 
-                authors="Smith, T., & Johnson, B."
-                year="2018"
-                title="Digital transformation: A review and research agenda"
-                source="Journal of Strategic Information Systems, 27(2), 185-201"
-                doi="10.1016/j.jsis.2018.03.001"
-              />
-              
-              <Reference 
-                authors="Thompson, K., Wilson, J., & Roberts, P."
-                year="2019"
-                title="Digital transformation and organizational performance: Evidence from multinational enterprises"
-                source="International Journal of Operations & Production Management, 39(6), 809-827"
-                doi="10.1108/IJOPM-06-2018-0367"
-              />
-              
-              <Reference 
-                authors="Wang, Y., & Chen, L."
-                year="2023"
-                title="Dynamic capabilities for digital transformation"
-                source="Business Process Management Journal, 26(4), 73-91"
-                doi="10.1108/BPMJ-11-2019-0454"
-              />
-            </Section>
+  <Reference 
+    authors="Alharbi, M., & Gupta, D."
+    year="2023"
+    title="Segmentation of diabetic retinopathy images using deep feature fused residual with U-Net"
+    source="Alexandria Engineering Journal"
+    doi="10.1016/j.aej.2023.10.040"
+  />
+  
+  <Reference 
+    authors="Hardani, D., Ardiyanto, I., & Nugroho, H."
+    year="2024"
+    title="Decoding brain tumor insights: Evaluating CAM variants with 3D U-Net for segmentation"
+    source="Communications in Science and Technology"
+    doi="10.21924/cst.9.2.2024.1477"
+  />
+  
+  <Reference 
+    authors="Rheude, T., Wirtz, A., Kuijper, A., & Wesarg, S."
+    year="2024"
+    title="Leveraging CAM Algorithms for Explaining Medical Semantic Segmentation"
+    source="ArXiv, abs/2409.20287"
+    doi="10.59275/j.melba.2024-ebd3"
+  />
+  
+  <Reference 
+    authors="Selvaraju, R. R., Cogswell, M., Das, A., Vedantam, R., Parikh, D., & Batra, D."
+    year="2017"
+    title="Grad-CAM: Visual explanations from deep networks via gradient-based localization"
+    source="2017 IEEE International Conference on Computer Vision (ICCV), 618-626"
+    doi="10.1109/ICCV.2017.74"
+  />
+  
+  <Reference 
+    authors="Suara, S., Jha, A., Sinha, P., & Sekh, A."
+    year="2023"
+    title="Is Grad-CAM Explainable in Medical Images?"
+    source="Proceedings of the International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI), 124-135"
+    doi="10.1007/978-3-031-58181-6_11"
+  />
+  
+  <Reference 
+    authors="Wang, L., Shen, M., Shi, C., Zhou, Y., Chen, Y., Pu, J., & Chen, H."
+    year="2022"
+    title="EE-Net: An edge-enhanced deep learning network for jointly identifying corneal micro-layers from optical coherence tomography"
+    source="Biomedical Signal Processing and Control, 71, 103213"
+    doi="10.1016/j.bspc.2021.103213"
+  />
+  
+  <Reference 
+    authors="Xiao, M., Zhang, L., Shi, W., Liu, J., He, W., & Jiang, Z."
+    year="2021"
+    title="A visualization method based on the Grad-CAM for medical image segmentation model"
+    source="2021 International Conference on Electronic Information Engineering and Computer Science (EIECS), 242-247"
+    doi="10.1109/EIECS53707.2021.9587953"
+  />
+  
+  <Reference 
+    authors="Zhang, B., Zhao, H., Si, M., Cui, W., Zhou, Y., Fu, S., & Wang, H."
+    year="2024"
+    title="RC-Net: A region-level context network for hyperreflective dots segmentation in retinal OCT images"
+    source="Optics and Lasers in Engineering"
+    doi="10.1016/j.optlaseng.2023.107872"
+  />
+</Section>
           </div>
         </div>
       </div>
