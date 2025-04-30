@@ -93,7 +93,7 @@ const Index = () => {
                 <b>Dataset and Preprocessing:</b> The Duke OCT dataset, comprising 220 OCT images (216x500 pixels) and corresponding 8-class segmentation masks, was used. Preprocessing involved normalizing pixel intensities to [0,1], resizing images and masks to 256x256 (bilinear for images, nearest-neighbor for masks), and one-hot encoding the masks for multi-class segmentation. The dataset was split into 80% training and 20% validation sets.
                 <Section 
   id="example-section" 
-  imageSrc="imgs/data.png" 
+  imageSrc="../imgs/data.png" 
   imageAlt="Example Image" 
   imageClassName="rounded-lg shadow-md"
 >
@@ -104,7 +104,7 @@ const Index = () => {
                 <b>Model Architecture:</b> An encoder-decoder SegNet architecture was chosen for pixel-wise segmentation. SegNet utilizes pooling indices during downsampling to improve spatial detail reconstruction during upsampling. To suit the experimental setup (Kaggle free-tier GPU), a modified SegNet with a maximum filter depth of 512 was implemented, alongside full-resolution skip connections to preserve fine spatial information crucial for thin retinal layers. The output layer consists of a 1x1 convolution mapping to 8 channels, followed by a softmax activation for multi-class pixel classification.
                 <Section 
   id="example-section" 
-  imageSrc="imgs/arch.png" 
+  imageSrc="../imgs/arch.png" 
   imageAlt="Example Image" 
   imageClassName="rounded-lg shadow-md"
 >
@@ -137,7 +137,7 @@ const Index = () => {
                 <b>Model Training Performance:</b> The model was trained and evaluated using standard metrics: Accuracy, Loss, Dice Coefficient, and Jaccard Index (IoU). Training curves demonstrated consistent convergence and high final performance on both training and validation sets, indicating effective learning and generalization without significant overfitting. Key final validation metrics achieved were: Accuracy 95.77%, Dice Coefficient 0.9446, and Jaccard Index (IoU) 0.8951. The validation loss converged to 0.1354, further confirming robustness on unseen data.
                 <Section 
   id="example-section" 
-  imageSrc="imgs/train.png" 
+  imageSrc="../imgs/train.png" 
   imageAlt="Example Image" 
   imageClassName="rounded-lg shadow-md"
 >
@@ -149,7 +149,7 @@ const Index = () => {
                 <b>Visual Interpretation:</b> Visual comparison of predicted segmentation masks against ground truth showed good spatial alignment and boundary delineation for major retinal layers. Challenges were noted in low-contrast areas, thin layers, and texture-sensitive regions, leading to localized inaccuracies. Analysis of misclassified pixels identified primary failure modes as border ambiguity, over-segmentation, and under-segmentation, highlighting difficulties with fine-grained structures and class boundaries.
                 <Section 
   id="example-section" 
-  imageSrc="imgs/vr.png" 
+  imageSrc="../imgs/vr.png" 
   imageAlt="Example Image" 
   imageClassName="rounded-lg shadow-md"
 >
@@ -164,7 +164,7 @@ const Index = () => {
                 <b>Explainable AI (XAI) Insights:</b> Integration of Grad-CAM provided valuable interpretability by generating class-specific heatmaps. Analysis of heatmaps from layers Conv2d_19 (feature refinement) and Conv2d_20 (final classification) showed how feature activations contribute to segmentation decisions for each layer. Conv2d_20 exhibited more refined, class-specific attention compared to Conv2d_19, indicating improved class separability in deeper layers. This multi-class XAI approach enhances clinical trust by visually confirming the model's focus on clinically relevant anatomical regions and aids in understanding segmentation errors and potential biases.
                 <Section 
   id="example-section" 
-  imageSrc="imgs/xai.png" 
+  imageSrc="../imgs/xai.png" 
   imageAlt="Example Image" 
   imageClassName="rounded-lg shadow-md"
 >
