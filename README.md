@@ -2,7 +2,8 @@
 
 ## Description
 
-This project is a web application built with React.js especially for technical review of Research Projects(Can be Used as a Template for other projects as well)
+This project is a web application built with React.js especially for technical review of Research Projects. 
+(Can be Used as a Template for other projects as well)
 
 ![image](https://github.com/user-attachments/assets/dd6540e3-c216-4568-9074-6be79b8ea268)
 
@@ -17,8 +18,7 @@ This project is built using the following key technologies:
 * **Language:** TypeScript
 * **Package Manager:** [Indicate which one you primarily use: Bun, npm, or Yarn]
 * **Code Quality:** ESLint
-* **Other:** [List any other significant libraries or frameworks used]
-
+  
 ## Getting Started
 
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
